@@ -41,6 +41,7 @@ if __name__ == '__main__':
             result = currImage
             img4 = result
             img5 = result
+            img6 = result
         else :
             print('ada1')
             sift = cv2.xfeatures2d.SIFT_create()
@@ -53,8 +54,11 @@ if __name__ == '__main__':
             img4 = cv2.drawKeypoints(result, keypoints0, None, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
             img5 = cv2.drawKeypoints(currImage, keypoints1, None, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
-            matches_src, matches_dst, n_matches = image_stitching.compute_matches(
+            matches_src, matches_dst, n_matches, matchezz, matchesMask = image_stitching.compute_matches(
                 features0, features1, flann, knn=args.knn)
+
+            draw_params = dict(matchColor = (0,255,0), singlePointColor = (255,0,0),matchesMask = matchesMask, flags = 0)
+            img6 = cv2.drawMatchesKnn(result, keypoints0, currImage, keypoints1, matchezz, None, **draw_params)
 
             H, mask = cv2.findHomography(matches_src, matches_dst, cv2.RANSAC, 5.0)
             result = image_stitching.combine_images(currImage, result, H)
@@ -67,6 +71,7 @@ if __name__ == '__main__':
         #cv2.imshow('fast_true2.png', img5)
         #cv2.imshow('curr',currImage)
         #cv2.imshow('prev',result)
+        cv2.imwrite('match.png', img6)
         cv2.imwrite('result.png', result)
         cv2.waitKey(1)
 
