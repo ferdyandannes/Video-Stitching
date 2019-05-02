@@ -30,7 +30,7 @@ if __name__ == '__main__':
     flann = cv2.FlannBasedMatcher({'algorithm': 0, 'trees': 5}, {'checks': 50})
 
     #cap = cv2.VideoCapture(args.video_path)
-    cap = cv2.VideoCapture('liloo.mp4')
+    cap = cv2.VideoCapture('kitti.mp4')
 
     while(cap.isOpened()):
         ret, currImage = cap.read()
