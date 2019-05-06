@@ -87,7 +87,7 @@ int main()
 
 		for (int i = 0; i < descriptor1.rows; i++)
 		{
-			if (matches[i].distance < 3 * min_dist)
+			if (matches[i].distance < 50 * min_dist)
 			{
 				good_matches.push_back(matches[i]);
 			}
