@@ -11,8 +11,8 @@ using namespace std;
 using namespace cv;
 int main()
 {
-	Mat seq_1 = imread("015.JPG");
-	Mat seq_2 = imread("016.JPG");
+	Mat seq_1 = imread("0000000001.png");
+	Mat seq_2 = imread("0000000000.png");
 
 	Mat descriptor1;
 	Mat descriptor2;
@@ -62,7 +62,7 @@ int main()
 
 	for (int i = 0; i < descriptor1.rows; i++)
 	{
-		if (matches[i].distance < 3 * min_dist)
+		if (matches[i].distance < 300 * min_dist)
 		{
 			good_matches.push_back(matches[i]);
 		}
@@ -103,7 +103,7 @@ int main()
 	line(img_matches, scene_corners[3] + Point2f(seq_1.cols, 0), scene_corners[0] + Point2f(seq_1.cols, 0), Scalar(0, 255, 0), 4);
 
 	//-- Show detected matches
-	imshow("Good Matches & Object detection", img_matches);
+	//imshow("Good Matches & Object detection", img_matches);
 
 	cv::Mat result;
 	warpPerspective(seq_1, result, H, cv::Size(seq_1.cols + seq_2.cols, seq_1.rows));
@@ -111,11 +111,8 @@ int main()
 	seq_2.copyTo(half);
 
 	imshow("Result Image", result);
-
-
-	
-	imshow("1", output_key1);
-	imshow("2", output_key2);
+	//imshow("1", output_key1);
+	//imshow("2", output_key2);
 
 	waitKey(0);
 	return 0;
