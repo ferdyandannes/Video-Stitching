@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 from random import randrange
+import time
 
 flann = cv2.FlannBasedMatcher({'algorithm': 0, 'trees': 5}, {'checks': 50})
 sift = cv2.xfeatures2d.SIFT_create()
@@ -23,6 +24,7 @@ def trim(frame):
     return frame
 
 while(cap_1.isOpened()) :
+    start_time = time.time()
     ret_1, seq_1 = cap_1.read()
     seq_1_gray = cv2.cvtColor(seq_1, cv2.COLOR_BGR2GRAY)
     
@@ -60,7 +62,12 @@ while(cap_1.isOpened()) :
     dst = cv2.warpPerspective(seq_1, H, (seq_2.shape[1] + seq_1.shape[1], seq_2.shape[0]))
 
     cv2.imshow("original_image_stitched_crop.jpg", trim(dst))
-    cv2.waitKey(0)
+
+    k = cv2.waitKey(33)
+    if k==27:
+        break
+    #cv2.waitKey(0)
+    print("FPS: ", 1.0 / (time.time() - start_time))
         
 cap_1.release()
 cap_2.release()
