@@ -1,16 +1,18 @@
+# coding: utf-8
+
 import argparse
 import logging
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from random import randrange
 import time
 
 flann = cv2.FlannBasedMatcher({'algorithm': 0, 'trees': 5}, {'checks': 50})
 sift = cv2.xfeatures2d.SIFT_create()
 
-cap_1 = cv2.VideoCapture('seq2.mp4')
-cap_2 = cv2.VideoCapture('seq1.mp4')
+cap_1 = cv2.VideoCapture('right.mp4')
+cap_2 = cv2.VideoCapture('left.mp4')
 
 def trim(frame):
     if not np.sum(frame[0]):
@@ -60,6 +62,7 @@ while(cap_1.isOpened()) :
 
     H, mask = cv2.findHomography(src, dst, cv2.RANSAC, 5.0)
     dst = cv2.warpPerspective(seq_1, H, (seq_2.shape[1] + seq_1.shape[1], seq_2.shape[0]))
+    dst[0:seq_2.shape[0],0:seq_2.shape[1]] = seq_2
 
     cv2.imshow("original_image_stitched_crop.jpg", trim(dst))
 
